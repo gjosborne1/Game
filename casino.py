@@ -1,12 +1,15 @@
 from game_functions import*
 import roulette
+import blackjack
 
 def print_guide():
     print("""---
 Type \"r\" to start roulette
+Type \"b\" to start blackjack
+Type \"s\" to start slots
 Type \"quit\" to quit
 More games coming soon
----""") #Easy game ideas: Blackjack, slots, etc.
+---""")
 
 clear()
 print("Welcome to the Casino!!")
@@ -17,6 +20,10 @@ while True:
     match inp:
         case "r":
             roulette.start_r()
+        case "b":
+            blackjack.start_b()
+        case "s":
+            print("Coming soon")
         case "quit":
             print("Bye!")
             break

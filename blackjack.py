@@ -6,8 +6,8 @@ def start_b():
         nonlocal card_list
         new_card=False
         while not new_card:
-            card=randrange(12)
-            suit=randrange(3)
+            card=randrange(13)
+            suit=randrange(4)
             deck_position=card+13*suit
             if card_list[deck_position]=="":
                 card_list[deck_position]="x"
@@ -145,12 +145,12 @@ Type "quit" to quit
                 print(f"Your hand: {player_card_1}, {player_card_2}")
                 print(f"Value: {player_hand+ace_value(player_hand, player_aces)}")
                 print()
+                _21=False
+                next_card=None
                 if player_hand+ace_value(player_hand, player_aces)==21:
                     print("You got a blackjack!")
-                    print(f"+{bet*1.5}")
-                    balance+=bet*2.5
+                    _21=True
                 else:
-                    next_card=None
                     while inp!="h" and inp!="s" and inp!="d":
                         inp = input("Type \"h\" to hit, \"s\" to stand, or \"d\" to double\n").lower()
                         match inp:
@@ -164,7 +164,7 @@ Type "quit" to quit
                                 next_card, player_hand, player_aces=get_card(player_hand, player_aces)
                                 balance-=bet
                                 bet*=2
-                                print(f"Doubling down. New bet: {bet}")
+                                print(f"Doubling down. New bet: ${bet:.2f}")
                                 print(f"You drew the {next_card}")
                                 print(f"Value: {player_hand+ace_value(player_hand, player_aces)}")
                                 inp="s"
@@ -183,35 +183,45 @@ Type "quit" to quit
                                     print(f"Value: {player_hand+ace_value(player_hand, player_aces)}")
                                 case _:
                                     print("Invalid input, please type \"h\" or \"s\"")
+                print()
+                if player_hand+ace_value(player_hand, player_aces)>21:
+                    print("You busted\n")
+                    print(f"Dealer's second card was: {dealer_card_2}")
+                    print(f"Value: {dealer_hand+ace_value(dealer_hand, dealer_aces)}")
+                else:
+                    sleep(2)
+                    print(f"Dealer's second card was: {dealer_card_2}")
+                    print(f"Value: {dealer_hand+ace_value(dealer_hand, dealer_aces)}")
+                    while dealer_hand+ace_value(dealer_hand, dealer_aces)<17:
+                        sleep(1.5)
+                        next_card, dealer_hand, dealer_aces=get_card(dealer_hand, dealer_aces)
+                        print(f"Dealer drew the {next_card}")
+                        print(f"Value: {dealer_hand + ace_value(dealer_hand, dealer_aces)}")
                     print()
-                    if player_hand+ace_value(player_hand, player_aces)>21:
-                        print("You busted")
-                    else:
-                        sleep(2)
-                        print(f"Dealer's second card was: {dealer_card_2}")
-                        print(f"Value: {dealer_hand+ace_value(dealer_hand, dealer_aces)}")
-                        while dealer_hand+ace_value(dealer_hand, dealer_aces)<17:
-                            sleep(1.5)
-                            next_card, dealer_hand, dealer_aces=get_card(dealer_hand, dealer_aces)
-                            print(f"Dealer drew the {next_card}")
-                            print(f"Value: {dealer_hand + ace_value(dealer_hand, dealer_aces)}")
-                        print()
-                        if dealer_hand+ace_value(dealer_hand, dealer_aces)>21:
-                            print("Dealer busted. You win!")
-                            print(f"+{bet}")
-                            balance+=bet*2
-                        elif dealer_hand+ace_value(dealer_hand, dealer_aces)>player_hand+ace_value(player_hand, player_aces):
-                            print("You lost")
-                        elif dealer_hand+ace_value(dealer_hand, dealer_aces)<player_hand+ace_value(player_hand, player_aces):
-                            print("You won!")
-                            print(f"+{bet}")
-                            balance+=bet*2
+                    if dealer_hand+ace_value(dealer_hand, dealer_aces)>21:
+                        print("Dealer busted. You win!")
+                        if _21:
+                            print(f"+${bet*1.5:.2f}")
+                            balance+=bet*2.5
                         else:
-                            print("Tie")
-                            balance+=bet
-                    if file_perm:
-                        with open("balance.txt", "w") as save:
-                            save.write(str(balance))
+                            print(f"+${bet:.2f}")
+                            balance+=bet*2
+                    elif dealer_hand+ace_value(dealer_hand, dealer_aces)>player_hand+ace_value(player_hand, player_aces):
+                        print("You lost")
+                    elif dealer_hand+ace_value(dealer_hand, dealer_aces)<player_hand+ace_value(player_hand, player_aces):
+                        print("You won!")
+                        if _21:
+                            print(f"+${bet*1.5:.2f}")
+                            balance+=bet*2.5
+                        else:
+                            print(f"+${bet:.2f}")
+                            balance+=bet*2
+                    else:
+                        print("Tie")
+                        balance+=bet
+                if file_perm:
+                    with open("balance.txt", "w") as save:
+                        save.write(str(balance))
                 print()
             case "balance":
                 print(f"Current balance: ${balance:.2f}")

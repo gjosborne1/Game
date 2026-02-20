@@ -36,7 +36,7 @@ def start_b():
             suit_name=" of Spades"
         value+=pre_value
         return card_name+suit_name, value, ace_count
-
+    
     def ace_value(hand_value, ace_amount):
         new_value=hand_value
         total_ace_value=0
@@ -48,7 +48,15 @@ def start_b():
                 total_ace_value+=11
                 new_value+=11
         return total_ace_value
-
+    
+    def value_actual(p_d="d"):
+        nonlocal player_hand, player_aces
+        nonlocal dealer_hand, dealer_aces
+        if p_d=="p":
+            return player_hand+ace_value(player_hand, player_aces)
+        else:
+            return dealer_hand+ace_value(dealer_hand, dealer_aces)
+    
     def delete(message, file_overwrite):
         nonlocal inp
         while inp!="y" and inp!="n":
@@ -65,7 +73,7 @@ def start_b():
                     clear()
                 case _:
                     print("Invalid input, please type \"y\" or \"n\"")
-
+    
     balance=100.0
     inp=None
     clear()
@@ -96,10 +104,10 @@ def start_b():
         file_perm=False
     else:
         file_perm=True
-
-
-
-
+    
+    
+    
+    
     if not file_perm:
         print("Unable to access or create save data. Game will only be saved locally\n")
     print("""Hello, and welcome to blackjack. Start by joining a table:
@@ -143,11 +151,11 @@ Type "quit" to quit
                 print("Dealer stands on 17\n---")
                 print(f"Dealer's hand: {dealer_card_1}\n")
                 print(f"Your hand: {player_card_1}, {player_card_2}")
-                print(f"Value: {player_hand+ace_value(player_hand, player_aces)}")
+                print(f"Value: {value_actual("p")}")
                 print()
                 _21=False
                 next_card=None
-                if player_hand+ace_value(player_hand, player_aces)==21:
+                if value_actual("p")==21:
                     print("You got a blackjack!")
                     _21=True
                 else:
@@ -159,18 +167,18 @@ Type "quit" to quit
                             case "h":
                                 next_card, player_hand, player_aces=get_card(player_hand, player_aces)
                                 print(f"You drew the {next_card}")
-                                print(f"Value: {player_hand+ace_value(player_hand, player_aces)}")
+                                print(f"Value: {value_actual("p")}")
                             case "d":
                                 next_card, player_hand, player_aces=get_card(player_hand, player_aces)
                                 balance-=bet
                                 bet*=2
                                 print(f"Doubling down. New bet: ${bet:.2f}")
                                 print(f"You drew the {next_card}")
-                                print(f"Value: {player_hand+ace_value(player_hand, player_aces)}")
+                                print(f"Value: {value_actual("p")}")
                                 inp="s"
                             case _:
                                 print("Invalid input, please type \"h\" or \"s\" or \"d\"")
-                    while player_hand+ace_value(player_hand, player_aces)<22 and inp!="s":
+                    while value_actual("p")<22 and inp!="s":
                         inp=None
                         while inp!="h" and inp!="s":
                             inp = input("Type \"h\" to hit or \"s\" to stand\n").lower()
@@ -180,25 +188,25 @@ Type "quit" to quit
                                 case "h":
                                     next_card, player_hand, player_aces=get_card(player_hand, player_aces)
                                     print(f"You drew the {next_card}")
-                                    print(f"Value: {player_hand+ace_value(player_hand, player_aces)}")
+                                    print(f"Value: {value_actual("p")}")
                                 case _:
                                     print("Invalid input, please type \"h\" or \"s\"")
                 print()
-                if player_hand+ace_value(player_hand, player_aces)>21:
+                if value_actual("p")>21:
                     print("You busted\n")
                     print(f"Dealer's second card was: {dealer_card_2}")
-                    print(f"Value: {dealer_hand+ace_value(dealer_hand, dealer_aces)}")
+                    print(f"Value: {value_actual()}")
                 else:
                     sleep(2)
                     print(f"Dealer's second card was: {dealer_card_2}")
-                    print(f"Value: {dealer_hand+ace_value(dealer_hand, dealer_aces)}")
-                    while dealer_hand+ace_value(dealer_hand, dealer_aces)<17:
+                    print(f"Value: {value_actual()}")
+                    while value_actual()<17:
                         sleep(1.5)
                         next_card, dealer_hand, dealer_aces=get_card(dealer_hand, dealer_aces)
                         print(f"Dealer drew the {next_card}")
-                        print(f"Value: {dealer_hand + ace_value(dealer_hand, dealer_aces)}")
+                        print(f"Value: {value_actual()}")
                     print()
-                    if dealer_hand+ace_value(dealer_hand, dealer_aces)>21:
+                    if value_actual()>21:
                         print("Dealer busted. You win!")
                         if _21:
                             print(f"+${bet*1.5:.2f}")
@@ -206,9 +214,9 @@ Type "quit" to quit
                         else:
                             print(f"+${bet:.2f}")
                             balance+=bet*2
-                    elif dealer_hand+ace_value(dealer_hand, dealer_aces)>player_hand+ace_value(player_hand, player_aces):
+                    elif value_actual()>value_actual("p"):
                         print("You lost")
-                    elif dealer_hand+ace_value(dealer_hand, dealer_aces)<player_hand+ace_value(player_hand, player_aces):
+                    elif value_actual()<value_actual("p"):
                         print("You won!")
                         if _21:
                             print(f"+${bet*1.5:.2f}")

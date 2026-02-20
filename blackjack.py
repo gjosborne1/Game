@@ -1,4 +1,4 @@
-from game_functions import *
+from game_functions import*
 from random import randrange
 
 def start_b():

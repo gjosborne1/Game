@@ -69,7 +69,7 @@ def start_r():
     
     
     
-
+    
     if not file_perm:
         print("Unable to access or create save data. Game will only be saved locally\n")
     print("""Hello, and welcome to roulette. Would you like to place a bet?

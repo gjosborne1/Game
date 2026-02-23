@@ -156,8 +156,9 @@ Type "quit" to quit
                 _21=False
                 next_card=None
                 if value_actual("p")==21:
-                    print("You got a blackjack!")
                     _21=True
+                    print("You got a blackjack!")
+                    sleep(1)
                 else:
                     while inp!="h" and inp!="s" and inp!="d":
                         inp = input("Type \"h\" to hit, \"s\" to stand, or \"d\" to double\n").lower()
@@ -201,7 +202,7 @@ Type "quit" to quit
                     print(f"Dealer's second card was: {dealer_card_2}")
                     print(f"Value: {value_actual()}")
                     while value_actual()<17:
-                        sleep(1.5)
+                        sleep(1.75)
                         next_card, dealer_hand, dealer_aces=get_card(dealer_hand, dealer_aces)
                         print(f"Dealer drew the {next_card}")
                         print(f"Value: {value_actual()}")

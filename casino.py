@@ -11,22 +11,25 @@ Type \"quit\" to quit
 More games coming soon
 ---""")
 
-clear()
-print("Welcome to the Casino!!")
-print_guide()
-while True:
-    inp=input().lower()
-    load(1)
-    match inp:
-        case "r":
-            roulette.start_r()
-        case "b":
-            blackjack.start_b()
-        case "s":
-            print("Coming soon")
-        case "quit":
-            print("Bye!")
-            break
-        case _:
-            print(f"\"{inp}\" is not a valid command")
+def main():
+    clear()
+    print("Welcome to the Casino!!")
     print_guide()
+    while True:
+        inp=input().lower()
+        load(1)
+        match inp:
+            case "r":
+                roulette.start_r()
+            case "b":
+                blackjack.start_b()
+            case "s":
+                print("Coming soon")
+            case "quit":
+                print("Bye!")
+                break
+            case _:
+                print(f"\"{inp}\" is not a valid command")
+        print_guide()
+
+main()

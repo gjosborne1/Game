@@ -2,6 +2,32 @@ from game_functions import*
 from random import randrange
 
 def start_s():
+    def symbol(index, bonus=False):
+        if bonus:
+            position=index%6
+        else:
+            position=index%9
+        match position:
+            case 0:
+                return " X "
+            case 1:
+                return " ☆ "
+            case 2:
+                return " β "
+            case 3:
+                return " ẟ "
+            case 4:
+                return " $ "
+            case 5:
+                return " 7 "
+            case 6:
+                return " 2x"
+            case 7:
+                return " 3x"
+            case 8:
+                return " 5x"
+        return position
+
     def delete(message, file_overwrite):
         nonlocal inp
         while inp!="y" and inp!="n":
@@ -96,7 +122,19 @@ Type "quit" to quit
             case "balance":
                 print(f"Current balance: ${balance:.2f}")
             case "help":
-                print() #Do this      <----
+                print("""The slot machine has the following symbols and payouts:
+---
+Any 3 random symbols: No payout
+XXX: Half of bet returned (not affected by multipliers)
+☆ or ☆☆ and random symbols: Bet returned (not affected by multipliers)
+☆☆☆: 1 to 1 payout
+βββ or ẟẟẟ: 5 to 1 payout
+$$$: 20 to 1 payout
+777: 50 to 1 payout
+2x2x2x: Automatically spin again with 2x all payouts
+3x3x3x: Automatically spin again with 3x all payouts
+5x5x5x: Automatically spin again with 5x all payouts
+---""")
             case "delete save" | "delete data":
                 if file_perm:
                     delete("Are you sure you want to delete your saved data", True)

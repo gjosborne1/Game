@@ -25,8 +25,7 @@ def main():
             case "b":
                 blackjack.start_b()
             case "s":
-                #slots.start_s()
-                print("Coming soon")
+                slots.start_s()
             case "quit":
                 print("Bye!")
                 break

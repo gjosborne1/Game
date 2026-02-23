@@ -26,7 +26,13 @@ def start_s():
                 return " 3x"
             case 8:
                 return " 5x"
-        return position
+
+    def win(amount, mult, jackpot=False):
+        print("You win!")
+        if jackpot:
+            print("Jackpot!")
+        print(f"+${amount*(mult-1):.2f}")
+        nonlocal balance; balance+=amount*mult
 
     def delete(message, file_overwrite):
         nonlocal inp
@@ -114,8 +120,63 @@ Type "quit" to quit
                 else:
                     print("Insufficient balance to play slots")
                 if bet>0:
+                    slot_1=randrange(9)
+                    slot_2=randrange(9)
+                    slot_3=randrange(9)
                     balance-=bet
-                    #Actual game goes here      <----
+                    print(" $  $  $ ", end="\n"*terminal_height())
+                    sleep(.5)
+                    for i in range(10):
+                        clear()
+                        symbol_1=symbol(slot_1+i)
+                        symbol_2=symbol(slot_2+i)
+                        symbol_3=symbol(slot_3+i)
+                        print(f"{symbol_1}{symbol_2}{symbol_3}", end="\n"*terminal_height())
+                        sleep(.12)
+                    for i in range(10):
+                        clear()
+                        symbol_1=symbol(slot_1+10+i)
+                        symbol_2=symbol(slot_2+10+i)
+                        symbol_3=symbol(slot_3+10+i)
+                        print(f"{symbol_1}{symbol_2}{symbol_3}", end="\n"*terminal_height())
+                        sleep(.12)
+                    for i in range(10):
+                        clear()
+                        symbol_2=symbol(slot_2+20+i)
+                        symbol_3=symbol(slot_3+20+i)
+                        print(f"{symbol_1}{symbol_2}{symbol_3}", end="\n"*terminal_height())
+                        sleep(.12)
+                    for i in range(10):
+                        clear()
+                        symbol_3=symbol(slot_3+30+i)
+                        if i<9:
+                            print(f"{symbol_1}{symbol_2}{symbol_3}", end="\n"*terminal_height())
+                            sleep(.12)
+                        else:
+                            print(f"{symbol_1}{symbol_2}{symbol_3}")
+                    print()
+                    if symbol_1==symbol_2==symbol_3:
+                        match symbol_1:
+                            case " X ":
+                                print(f"${bet/2:.2f} returned of original bet")
+                                balance+=bet/2
+                            case " ☆ ":
+                                win(bet, 2)
+                            case " β " | " ẟ ":
+                                win(bet, 6)
+                            case " $ ":
+                                win(bet, 21, True)
+                            case " 7 ":
+                                win(bet, 51, True)
+                            case " 2x":
+                                print("2x multiplier placeholder")
+                            case " 3x":
+                                print("3x multiplier placeholder")
+                            case " 5x":
+                                print("5x multiplier placeholder")
+                    elif symbol_1==" ☆ " or symbol_2==" ☆ " or symbol_3==" ☆ ":
+                        print(f"${bet:.2f} returned of original bet")
+                        balance+=bet
                     if file_perm:
                         with open("balance.txt", "w") as save:
                             save.write(str(balance))

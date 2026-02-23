@@ -1,6 +1,7 @@
 from game_functions import*
 import roulette
 import blackjack
+import slots
 
 def print_guide():
     print("""---
@@ -24,6 +25,7 @@ def main():
             case "b":
                 blackjack.start_b()
             case "s":
+                #slots.start_s()
                 print("Coming soon")
             case "quit":
                 print("Bye!")

@@ -174,8 +174,9 @@ Type "quit" to quit
                                 print("3x multiplier placeholder")
                             case " 5x":
                                 print("5x multiplier placeholder")
+                        print()
                     elif symbol_1==" ☆ " or symbol_2==" ☆ " or symbol_3==" ☆ ":
-                        print(f"${bet:.2f} returned of original bet")
+                        print(f"${bet:.2f} returned of original bet\n")
                         balance+=bet
                     if file_perm:
                         with open("balance.txt", "w") as save:

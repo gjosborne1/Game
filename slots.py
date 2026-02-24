@@ -33,6 +33,48 @@ def start_s():
             print("Jackpot!")
         print(f"+${amount*(mult-1):.2f}")
         nonlocal balance; balance+=amount*mult
+
+    def bonus_spin(multiplier_value):
+        nonlocal multiplier, results_check
+        nonlocal symbol_1, symbol_2, symbol_3
+        multiplier=multiplier_value
+        results_check=True
+        print(f"{multiplier_value}x multiplier activated!!")
+        sleep(3)
+        load()
+        slot_1_bonus=randrange(6)
+        slot_2_bonus=randrange(6)
+        slot_3_bonus=randrange(6)
+        print(" $  $  $ ", end="\n"*terminal_height())
+        sleep(.5)
+        for j in range(10):
+            clear()
+            symbol_1=symbol(slot_1_bonus+j, True)
+            symbol_2=symbol(slot_2_bonus+j, True)
+            symbol_3=symbol(slot_3_bonus+j, True)
+            print(f"{symbol_1}{symbol_2}{symbol_3}", end="\n"*terminal_height())
+            sleep(.12)
+        for j in range(10):
+            clear()
+            symbol_1=symbol(slot_1_bonus+10+j, True)
+            symbol_2=symbol(slot_2_bonus+10+j, True)
+            symbol_3=symbol(slot_3_bonus+10+j, True)
+            print(f"{symbol_1}{symbol_2}{symbol_3}", end="\n"*terminal_height())
+            sleep(.12)
+        for j in range(10):
+            clear()
+            symbol_2=symbol(slot_2_bonus+20+j, True)
+            symbol_3=symbol(slot_3_bonus+20+j, True)
+            print(f"{symbol_1}{symbol_2}{symbol_3}", end="\n"*terminal_height())
+            sleep(.12)
+        for j in range(10):
+            clear()
+            symbol_3=symbol(slot_3_bonus+30+j, True)
+            if j<9:
+                print(f"{symbol_1}{symbol_2}{symbol_3}", end="\n"*terminal_height())
+                sleep(.12)
+            else:
+                print(f"{symbol_1}{symbol_2}{symbol_3}")
     
     def delete(message, file_overwrite):
         nonlocal inp
@@ -120,6 +162,7 @@ Type "quit" to quit
                 else:
                     print("Insufficient balance to play slots")
                 if bet>0:
+                    multiplier=1
                     slot_1=randrange(9)
                     slot_2=randrange(9)
                     slot_3=randrange(9)
@@ -154,30 +197,42 @@ Type "quit" to quit
                             sleep(.12)
                         else:
                             print(f"{symbol_1}{symbol_2}{symbol_3}")
-                    print()
-                    if symbol_1==symbol_2==symbol_3:
-                        match symbol_1:
-                            case " X ":
-                                print(f"${bet/2:.2f} returned of original bet")
-                                balance+=bet/2
-                            case " ☆ ":
-                                win(bet, 2)
-                            case " β " | " ẟ ":
-                                win(bet, 6)
-                            case " $ ":
-                                win(bet, 21, True)
-                            case " 7 ":
-                                win(bet, 51, True)
-                            case " 2x":
-                                print("2x multiplier placeholder")
-                            case " 3x":
-                                print("3x multiplier placeholder")
-                            case " 5x":
-                                print("5x multiplier placeholder")
+                    results_check=True
+                    while results_check:
                         print()
-                    elif symbol_1==" ☆ " or symbol_2==" ☆ " or symbol_3==" ☆ ":
-                        print(f"${bet:.2f} returned of original bet\n")
-                        balance+=bet
+                        results_check=False
+                        if symbol_1==symbol_2==symbol_3:
+                            match symbol_1:
+                                case " X ":
+                                    print(f"${bet/2:.2f} returned of original bet")
+                                    balance+=bet/2
+                                case " ☆ ":
+                                    win(bet, 1+multiplier)
+                                case " β " | " ẟ ":
+                                    win(bet, 1+5*multiplier)
+                                case " $ ":
+                                    win(bet, 1+20*multiplier, True)
+                                case " 7 ":
+                                    win(bet, 1+50*multiplier, True)
+                                case " 2x":
+                                    bonus_spin(2)
+                                case " 3x":
+                                    bonus_spin(3)
+                                case " 5x":
+                                    bonus_spin(5)
+                            print()
+                        elif symbol_1==" ☆ " or symbol_2==" ☆ " or symbol_3==" ☆ ":
+                            print(f"${bet:.2f} returned of original bet\n")
+                            balance+=bet
+                        elif symbol_1==" 2x" and symbol_2==" 3x" and symbol_3==" 5x":
+                            multiplier=randrange(3)
+                            match multiplier:
+                                case 0:
+                                    win(bet, 11)
+                                case 1:
+                                    win(bet, 16)
+                                case 2:
+                                    win(bet, 26, True)
                     if file_perm:
                         with open("balance.txt", "w") as save:
                             save.write(str(balance))
@@ -193,6 +248,7 @@ XXX: Half of bet returned (not affected by multipliers)
 βββ or ẟẟẟ: 5 to 1 payout
 $$$: 20 to 1 payout
 777: 50 to 1 payout
+2x3x5x: Random payout of 10 to 1, 15 to 1, or 25 to 1
 2x2x2x: Automatically spin again with 2x all payouts
 3x3x3x: Automatically spin again with 3x all payouts
 5x5x5x: Automatically spin again with 5x all payouts

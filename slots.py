@@ -26,14 +26,14 @@ def start_s():
                 return " 3x"
             case 8:
                 return " 5x"
-
+    
     def win(amount, mult, jackpot=False):
         print("You win!")
         if jackpot:
             print("Jackpot!")
         print(f"+${amount*(mult-1):.2f}")
         nonlocal balance; balance+=amount*mult
-
+    
     def delete(message, file_overwrite):
         nonlocal inp
         while inp!="y" and inp!="n":
@@ -50,7 +50,7 @@ def start_s():
                     clear()
                 case _:
                     print("Invalid input, please type \"y\" or \"n\"")
-
+    
     balance=100.0
     inp=None
     clear()
@@ -81,10 +81,10 @@ def start_s():
         file_perm=False
     else:
         file_perm=True
-
-
-
-
+    
+    
+    
+    
     if not file_perm:
         print("Unable to access or create save data. Game will only be saved locally\n")
     print("""Hello, and welcome to slots. Ready to start playing?

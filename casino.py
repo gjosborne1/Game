@@ -2,12 +2,14 @@ from game_functions import*
 import roulette
 import blackjack
 import slots
+import d_or_n
 
 def print_guide():
     print("""---
 Type \"r\" to start roulette
 Type \"b\" to start blackjack
 Type \"s\" to start slots
+Type \"d\" to start double or nothing
 Type \"quit\" to quit
 More games coming soon
 ---""")
@@ -26,6 +28,8 @@ def main():
                 blackjack.start_b()
             case "s":
                 slots.start_s()
+            case "d":
+                d_or_n.start_d()
             case "quit":
                 print("Bye!")
                 break

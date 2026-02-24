@@ -226,6 +226,8 @@ Type "quit" to quit
                                     bonus_spin(3)
                                 case " 5x":
                                     bonus_spin(5)
+                        elif (symbol_1==" β " or symbol_1==" ẟ ") and (symbol_2==" β " or symbol_2==" ẟ ") and (symbol_3==" β " or symbol_3==" ẟ "):
+                            win(bet, 1+2*multiplier)
                         elif symbol_1==" ☆ " or symbol_2==" ☆ " or symbol_3==" ☆ ":
                             print(f"${bet:.2f} returned of original bet\n")
                             balance+=bet
@@ -250,6 +252,7 @@ Any 3 random symbols: No payout
 XXX: Half of bet returned (not affected by multipliers)
 ☆ or ☆☆ and random symbols: Bet returned (not affected by multipliers)
 ☆☆☆: 1 to 1 payout
+Any combination of β or ẟ: 2 to 1 payout
 βββ or ẟẟẟ: 5 to 1 payout
 $$$: 20 to 1 payout
 777: 50 to 1 payout

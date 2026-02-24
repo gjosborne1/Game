@@ -18,7 +18,7 @@ def start_d():
                     clear()
                 case _:
                     print("Invalid input, please type \"y\" or \"n\"")
-
+    
     balance=100.0
     inp=None
     clear()
@@ -49,10 +49,10 @@ def start_d():
         file_perm=False
     else:
         file_perm=True
-
-
-
-
+    
+    
+    
+    
     if not file_perm:
         print("Unable to access or create save data. Game will only be saved locally\n")
     print("""Hello, and welcome to double or nothing. Ready to test your luck?
@@ -101,7 +101,7 @@ Type "quit" to quit
                                     balance+=bet
                                     bet*=2
                                 else:
-                                    print("You lose\n")
+                                    print("You lose")
                                     balance-=bet
                                     game_loop=False
                             case "n":

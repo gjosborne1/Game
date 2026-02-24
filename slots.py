@@ -45,6 +45,9 @@ def start_s():
         slot_1_bonus=randrange(6)
         slot_2_bonus=randrange(6)
         slot_3_bonus=randrange(6)
+        #slot_1_bonus=int(input())
+        #slot_2_bonus=int(input())
+        #slot_3_bonus=int(input()) Debugging
         print(" $  $  $ ", end="\n"*terminal_height())
         sleep(.5)
         for j in range(10):
@@ -166,6 +169,9 @@ Type "quit" to quit
                     slot_1=randrange(9)
                     slot_2=randrange(9)
                     slot_3=randrange(9)
+                    #slot_1=int(input())
+                    #slot_2=int(input())
+                    #slot_3=int(input()) Debugging
                     balance-=bet
                     print(" $  $  $ ", end="\n"*terminal_height())
                     sleep(.5)

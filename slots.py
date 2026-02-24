@@ -31,7 +31,7 @@ def start_s():
         print("You win!")
         if jackpot:
             print("Jackpot!")
-        print(f"+${amount*(mult-1):.2f}")
+        print(f"+${amount*(mult-1):.2f}\n")
         nonlocal balance; balance+=amount*mult
 
     def bonus_spin(multiplier_value):
@@ -39,7 +39,7 @@ def start_s():
         nonlocal symbol_1, symbol_2, symbol_3
         multiplier=multiplier_value
         results_check=True
-        print(f"{multiplier_value}x multiplier activated!!")
+        print(f"{multiplier_value}x multiplier activated!!", end="\n"*(terminal_height()-2))
         sleep(3)
         load()
         slot_1_bonus=randrange(6)
@@ -210,7 +210,7 @@ Type "quit" to quit
                         if symbol_1==symbol_2==symbol_3:
                             match symbol_1:
                                 case " X ":
-                                    print(f"${bet/2:.2f} returned of original bet")
+                                    print(f"${bet/2:.2f} returned of original bet\n")
                                     balance+=bet/2
                                 case " ☆ ":
                                     win(bet, 1+multiplier)
@@ -226,7 +226,6 @@ Type "quit" to quit
                                     bonus_spin(3)
                                 case " 5x":
                                     bonus_spin(5)
-                            print()
                         elif symbol_1==" ☆ " or symbol_2==" ☆ " or symbol_3==" ☆ ":
                             print(f"${bet:.2f} returned of original bet\n")
                             balance+=bet

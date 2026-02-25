@@ -201,8 +201,9 @@ Type "quit" to quit
             case "support":
                 if balance>=100 and support_level==0:
                     print("Tier 1 supports cost $100, tier 2 supports cost $200, and tier 3 supports cost $300\n---")
-                    while inp!="1" and inp!="2" and inp!="3":
-                        inp=input("Type a number 1-3 to choose that tier of support\n").lower()
+                    skip=False
+                    while inp!="1" and inp!="2" and inp!="3" and not skip:
+                        inp=input("Type a number 1-3 to choose that tier of support, or type \"x\" to cancel\n").lower()
                         match inp:
                             case "1":
                                 support_level=1
@@ -221,43 +222,47 @@ Type "quit" to quit
                                 else:
                                     print("Cannot purchase tier 3 support due to balance")
                                     inp=None
+                            case "x":
+                                skip=True
+                                load(1)
                             case _:
-                                print("Invalid input, please type a number 1-3")
-                    if file_perm:
-                        with open("balance.txt", "w") as save:
-                            save.write(str(balance))
-                    inp=None
-                    while inp!="1" and inp!="2" and inp!="3" and inp!="4" and inp!="5" and inp!="6" and inp!="7" and inp!="8":
-                        inp=input("Type a number 1-8 to support that racer\n").lower()
-                        match inp:
-                            case "1":
-                                support=1
-                                support_text="racer 1"
-                            case "2":
-                                support=2
-                                support_text="racer 2"
-                            case "3":
-                                support=3
-                                support_text="racer 3"
-                            case "4":
-                                support=4
-                                support_text="racer 4"
-                            case "5":
-                                support=5
-                                support_text="racer 5"
-                            case "6":
-                                support=6
-                                support_text="racer 6"
-                            case "7":
-                                support=7
-                                support_text="racer 7"
-                            case "8":
-                                support=8
-                                support_text="racer 8"
-                            case _:
-                                print("Invalid input, please type a number 1-8")
-                    load(1)
-                    print(f"Sent level {support_level} support to {support_text}!")
+                                print("Invalid input, please type a number 1-3 or \"x\"")
+                    if not skip:
+                        if file_perm:
+                            with open("balance.txt", "w") as save:
+                                save.write(str(balance))
+                        inp=None
+                        while inp!="1" and inp!="2" and inp!="3" and inp!="4" and inp!="5" and inp!="6" and inp!="7" and inp!="8":
+                            inp=input("Type a number 1-8 to support that racer\n").lower()
+                            match inp:
+                                case "1":
+                                    support=1
+                                    support_text="racer 1"
+                                case "2":
+                                    support=2
+                                    support_text="racer 2"
+                                case "3":
+                                    support=3
+                                    support_text="racer 3"
+                                case "4":
+                                    support=4
+                                    support_text="racer 4"
+                                case "5":
+                                    support=5
+                                    support_text="racer 5"
+                                case "6":
+                                    support=6
+                                    support_text="racer 6"
+                                case "7":
+                                    support=7
+                                    support_text="racer 7"
+                                case "8":
+                                    support=8
+                                    support_text="racer 8"
+                                case _:
+                                    print("Invalid input, please type a number 1-8")
+                        load(1)
+                        print(f"Sent level {support_level} support to {support_text}!")
                 elif support_level!=0:
                     print("Already supporting a racer")
                 else:

@@ -160,7 +160,7 @@ Type "quit" to quit
                                         if not scores[2][0] in tie3:
                                             tie3.append(scores[2][0])
                                         tie3.append(scores[j][0])
-                                scores[i][0]=scores[i][0]+", "+scores[j][0]
+                                scores[i][0]+=", "+scores[j][0]
                                 scores[j][0]="Dead Heat"
                 print(f"""Results:
 ---

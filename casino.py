@@ -3,6 +3,7 @@ import roulette
 import blackjack
 import slots
 import d_or_n
+import race
 
 def print_guide():
     print("""---
@@ -10,6 +11,7 @@ Type \"r\" to start roulette
 Type \"b\" to start blackjack
 Type \"s\" to start slots
 Type \"d\" to start double or nothing
+Type \"rb\" to start race betting
 Type \"quit\" to quit
 More games coming soon
 ---""")
@@ -30,6 +32,8 @@ def main():
                 slots.start_s()
             case "d":
                 d_or_n.start_d()
+            case "rb":
+                race.start_rb()
             case "quit":
                 print("Bye!")
                 break

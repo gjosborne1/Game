@@ -13,7 +13,6 @@ Type \"s\" to start slots
 Type \"d\" to start double or nothing
 Type \"rb\" to start race betting
 Type \"quit\" to quit
-More games coming soon
 ---""")
 
 def main():

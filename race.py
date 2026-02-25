@@ -18,7 +18,7 @@ def start_rb():
                     clear()
                 case _:
                     print("Invalid input, please type \"y\" or \"n\"")
-
+    
     balance=100.0
     inp=None
     clear()
@@ -49,10 +49,10 @@ def start_rb():
         file_perm=False
     else:
         file_perm=True
-
-
-
-
+    
+    
+    
+    
     if not file_perm:
         print("Unable to access or create save data. Game will only be saved locally\n")
     print("""Hello, and welcome to race betting. Get started by placing a bet:

@@ -2,6 +2,21 @@ from game_functions import*
 from random import randrange
 
 def start_rb():
+    def win_loss_message(name, x=0,y=0.0):
+        nonlocal scores, balance
+        if scores[0][0]==name or scores[1][0]==name:
+            print(f"Your bet on {name.lower()} was a win!")
+            print(f"+${x*(y-1):.2f}")
+            balance+=x*y
+        elif scores[2][0]==name:
+            print(f"Your bet on {name.lower()} was a win!")
+            y=(y-1)/2+1
+            print(f"+${x*(y-1):.2f}")
+            balance+=x*y
+        else:
+            print(f"Your bet on {name.lower()} was a loss")
+        print()
+
     def delete(message, file_overwrite):
         nonlocal inp
         while inp!="y" and inp!="n":
@@ -21,6 +36,9 @@ def start_rb():
     
     balance=100.0
     inp=None
+    support=0
+    support_text=None
+    support_level=0
     clear()
     try:
         with open("balance.txt") as save:
@@ -70,6 +88,7 @@ Type "quit" to quit
         load(1)
         match inp:
             case "bet":
+                r1=r2=r3=r4=r5=r6=r7=r8=False
                 bet=100
                 if balance>=.01:
                     bet_entered=False
@@ -90,16 +109,154 @@ Type "quit" to quit
                 else:
                     print("No money to bet. Bet automatically set to $100")
                 balance-=bet
+                if support_level!=0:
+                    print(f"Currently supporting {support_text}")
+                while inp!="1" and inp!="2" and inp!="3" and inp!="4" and inp!="5" and inp!="6" and inp!="7" and inp!="8":
+                    inp=input("Type a number 1-8 to bet on that racer\n").lower()
+                    match inp:
+                        case "1":
+                            r1=True
+                        case "2":
+                            r2=True
+                        case "3":
+                            r3=True
+                        case "4":
+                            r4=True
+                        case "5":
+                            r5=True
+                        case "6":
+                            r6=True
+                        case "7":
+                            r7=True
+                        case "8":
+                            r8=True
+                        case _:
+                            print("Invalid input, please only type a number 1-8")
+                load(3)
+                scores=[["Racer 1", randrange(300)],["Racer 2", randrange(180)],["Racer 3", randrange(180)],["Racer 4", randrange(180)],["Racer 5", randrange(150)],["Racer 6", randrange(150)],["Racer 7", randrange(90)],["Racer 8", randrange(10)]]
+                #for i in range(8):
+                    #scores[i][1]=int(input()) Debugging
+                if support_level!=0:
+                    scores[support-1][1]+=5+5*support_level
+                scores.sort(key=lambda score:score[1], reverse=True)
+                print(f"""Results:
+---
+1st: {scores[0][0]}
+2nd: {scores[1][0]}
+3rd: {scores[2][0]}
+4th: {scores[3][0]}
+5th: {scores[4][0]}
+6th: {scores[5][0]}
+7th: {scores[6][0]}
+8th: {scores[7][0]}
+---""")                                                                         #Add tie handling
+                print()
+                if r1:
+                    win_loss_message("Racer 1", bet,2)
+                elif r2:
+                    win_loss_message("Racer 2", bet,2.5)
+                elif r3:
+                    win_loss_message("Racer 3", bet,2.5)
+                elif r4:
+                    win_loss_message("Racer 4", bet,2.5)
+                elif r5:
+                    win_loss_message("Racer 5", bet,3)
+                elif r6:
+                    win_loss_message("Racer 6", bet,3)
+                elif r7:
+                    win_loss_message("Racer 7", bet,5)
+                elif r8:
+                    win_loss_message("Racer 8", bet,201)
                 if file_perm:
                     with open("balance.txt", "w") as save:
                         save.write(str(balance))
-                print() #Do this
+                if support_level!=0:
+                    print(f"Your support was appreciated from {support_text}\n")
+                    support=0
+                    support_text=None
+                    support_level=0
             case "support":
-                print() #Do this
+                if balance>=100 and support_level==0:
+                    print("Tier 1 supports cost $100, tier 2 supports cost $200, and tier 3 supports cost $300\n---")
+                    while inp!="1" and inp!="2" and inp!="3":
+                        inp=input("Type a number 1-3 to choose that tier of support\n").lower()
+                        match inp:
+                            case "1":
+                                support_level=1
+                                balance-=100
+                            case "2":
+                                if balance>=200:
+                                    support_level=2
+                                    balance-=200
+                                else:
+                                    print("Cannot purchase tier 2 support due to balance")
+                                    inp=None
+                            case "3":
+                                if balance>=300:
+                                    support_level=3
+                                    balance-=300
+                                else:
+                                    print("Cannot purchase tier 3 support due to balance")
+                                    inp=None
+                            case _:
+                                print("Invalid input, please type a number 1-3")
+                    if file_perm:
+                        with open("balance.txt", "w") as save:
+                            save.write(str(balance))
+                    inp=None
+                    while inp!="1" and inp!="2" and inp!="3" and inp!="4" and inp!="5" and inp!="6" and inp!="7" and inp!="8":
+                        inp=input("Type a number 1-8 to support that racer\n").lower()
+                        match inp:
+                            case "1":
+                                support=1
+                                support_text="racer 1"
+                            case "2":
+                                support=2
+                                support_text="racer 2"
+                            case "3":
+                                support=3
+                                support_text="racer 3"
+                            case "4":
+                                support=4
+                                support_text="racer 4"
+                            case "5":
+                                support=5
+                                support_text="racer 5"
+                            case "6":
+                                support=6
+                                support_text="racer 6"
+                            case "7":
+                                support=7
+                                support_text="racer 7"
+                            case "8":
+                                support=8
+                                support_text="racer 8"
+                            case _:
+                                print("Invalid input, please type a number 1-8")
+                    load(1)
+                    print(f"Sent tier {support_level} support to {support_text}!")
+                elif support_level!=0:
+                    print("Already supporting a racer")
+                else:
+                    print("Insufficient balance to support racers")
             case "balance":
                 print(f"Current balance: ${balance:.2f}")
             case "help":
-                print() #Do this
+                print("""Racer odds and payouts:
+---
+Racer 1 is energetic and young, and has very high odds to win, 1 to 1 payout
+Racers 2, 3, and 4 are all experienced racers, and have decently high odds to win, 3 to 2 payout
+Racers 5 and 6 are a bit inexperienced, but still have good odds of winning, 2 to 1 payout
+Racer 7 is clumsy, and has worse odds of winning than the other racers, 4 to 1 payout
+Racer 8 is very slow and has extremely bad odds to win, due to his very low odds of winning there is a 200 to 1 payout
+
+Full payouts are awarded if your racer finishes in 1st or 2nd
+Payouts are halved if your racer finishes in 3rd
+No payouts are awarded for placements below 3rd
+
+
+If you choose to support a racer before the race, his odds of winning are boosted slightly. Supports run on a 3-tier system
+---""")
             case "delete save" | "delete data":
                 if file_perm:
                     delete("Are you sure you want to delete your saved data", True)

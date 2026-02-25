@@ -4,11 +4,12 @@ from random import randrange
 def start_rb():
     def win_loss_message(name, x=0,y=0.0):
         nonlocal scores, balance
-        if scores[0][0]==name or scores[1][0]==name:
+        nonlocal tie1, tie2, tie3
+        if scores[0][0]==name or scores[1][0]==name or name in tie1 or name in tie2:
             print(f"Your bet on {name.lower()} was a win!")
             print(f"+${x*(y-1):.2f}")
             balance+=x*y
-        elif scores[2][0]==name:
+        elif scores[2][0]==name or name in tie3:
             print(f"Your bet on {name.lower()} was a win!")
             y=(y-1)/2+1
             print(f"+${x*(y-1):.2f}")
@@ -16,7 +17,7 @@ def start_rb():
         else:
             print(f"Your bet on {name.lower()} was a loss")
         print()
-
+    
     def delete(message, file_overwrite):
         nonlocal inp
         while inp!="y" and inp!="n":
@@ -139,6 +140,28 @@ Type "quit" to quit
                 if support_level!=0:
                     scores[support-1][1]+=5+5*support_level
                 scores.sort(key=lambda score:score[1], reverse=True)
+                tie1=[]
+                tie2=[]
+                tie3=[]
+                for i in range(7):
+                    if scores[i][0]!="Dead Heat":
+                        for j in range(i+1, 8):
+                            if scores[i][1]==scores[j][1]:
+                                match i:
+                                    case 0:
+                                        if not scores[0][0] in tie1:
+                                            tie1.append(scores[0][0])
+                                        tie1.append(scores[j][0])
+                                    case 1:
+                                        if not scores[1][0] in tie2:
+                                            tie2.append(scores[1][0])
+                                        tie2.append(scores[j][0])
+                                    case 2:
+                                        if not scores[2][0] in tie3:
+                                            tie3.append(scores[2][0])
+                                        tie3.append(scores[j][0])
+                                scores[i][0]=scores[i][0]+", "+scores[j][0]
+                                scores[j][0]="Dead Heat"
                 print(f"""Results:
 ---
 1st: {scores[0][0]}
@@ -149,7 +172,7 @@ Type "quit" to quit
 6th: {scores[5][0]}
 7th: {scores[6][0]}
 8th: {scores[7][0]}
----""")                                                                         #Add tie handling
+---""")
                 print()
                 if r1:
                     win_loss_message("Racer 1", bet,2)
@@ -234,7 +257,7 @@ Type "quit" to quit
                             case _:
                                 print("Invalid input, please type a number 1-8")
                     load(1)
-                    print(f"Sent tier {support_level} support to {support_text}!")
+                    print(f"Sent level {support_level} support to {support_text}!")
                 elif support_level!=0:
                     print("Already supporting a racer")
                 else:
@@ -248,7 +271,7 @@ Racer 1 is energetic and young, and has very high odds to win, 1 to 1 payout
 Racers 2, 3, and 4 are all experienced racers, and have decently high odds to win, 3 to 2 payout
 Racers 5 and 6 are a bit inexperienced, but still have good odds of winning, 2 to 1 payout
 Racer 7 is clumsy, and has worse odds of winning than the other racers, 4 to 1 payout
-Racer 8 is very slow and has extremely bad odds to win, due to his very low odds of winning there is a 200 to 1 payout
+Racer 8 is very slow, and has extremely bad odds to win, due to his very low odds of winning there is a 200 to 1 payout
 
 Full payouts are awarded if your racer finishes in 1st or 2nd
 Payouts are halved if your racer finishes in 3rd

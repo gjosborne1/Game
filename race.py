@@ -187,7 +187,7 @@ Type "quit" to quit
                 elif r6:
                     win_loss_message("Racer 6", bet,3)
                 elif r7:
-                    win_loss_message("Racer 7", bet,5)
+                    win_loss_message("Racer 7", bet,6)
                 elif r8:
                     win_loss_message("Racer 8", bet,201)
                 if file_perm:
@@ -237,28 +237,28 @@ Type "quit" to quit
                             match inp:
                                 case "1":
                                     support=1
-                                    support_text="racer 1"
+                                    support_text="Daiwa Scarlet (racer 1)"
                                 case "2":
                                     support=2
-                                    support_text="racer 2"
+                                    support_text="Gold Ship (racer 2)"
                                 case "3":
                                     support=3
-                                    support_text="racer 3"
+                                    support_text="Slow Dancer (racer 3)"
                                 case "4":
                                     support=4
-                                    support_text="racer 4"
+                                    support_text="Silver Bullet (racer 4)"
                                 case "5":
                                     support=5
-                                    support_text="racer 5"
+                                    support_text="Special Week (racer 5)"
                                 case "6":
                                     support=6
-                                    support_text="racer 6"
+                                    support_text="Vodka (racer 6)"
                                 case "7":
                                     support=7
-                                    support_text="racer 7"
+                                    support_text="Agnes Tachyon (racer 7)"
                                 case "8":
                                     support=8
-                                    support_text="racer 8"
+                                    support_text="Haru Urara (racer 8)"
                                 case _:
                                     print("Invalid input, please type a number 1-8")
                         load(1)
@@ -272,18 +272,18 @@ Type "quit" to quit
             case "help":
                 print("""Racer odds and payouts:
 ---
-Racer 1 is energetic and young, and has very high odds to win, 1 to 1 payout
-Racers 2, 3, and 4 are all experienced racers, and have decently high odds to win, 3 to 2 payout
-Racers 5 and 6 are a bit inexperienced, but still have good odds of winning, 2 to 1 payout
-Racer 7 is clumsy, and has worse odds of winning than the other racers, 4 to 1 payout
-Racer 8 is very slow, and has extremely bad odds to win, due to his very low odds of winning there is a 200 to 1 payout
+Racer 1, Daiwa Scarlet, is energetic and young. Very high odds to win, 1 to 1 payout
+Racers 2, 3, and 4, Gold Ship, Slow Dancer, and Silver Bullet, are experienced racers. Decently high odds to win, 3 to 2 payout
+Racers 5 and 6, Special Week and Vodka, are a bit inexperienced. Still good odds of winning, 2 to 1 payout
+Racer 7, Agnes Tachyon, is clumsy. Worse odds of winning than the other racers, 5 to 1 payout
+Racer 8, Haru Urara, is very slow. Extremely bad odds to win, due to very low odds of winning there is a 200 to 1 payout
 
 Full payouts are awarded if your racer finishes in 1st or 2nd
 Payouts are halved if your racer finishes in 3rd
 No payouts are awarded for placements below 3rd
 
 
-If you choose to support a racer before the race, his odds of winning are boosted slightly. Supports run on a 3-tier system
+If you choose to support a racer before the race, his/her odds of winning are boosted slightly. Supports run on a 3-tier system
 ---""")
             case "delete save" | "delete data":
                 if file_perm:

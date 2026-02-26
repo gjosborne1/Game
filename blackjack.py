@@ -24,8 +24,8 @@ def start_b():
         elif card==12:
             card_name="King"
         else:
-            card_name=str(card)
-            value=card
+            card_name=str(card+1)
+            value=card+1
         if suit==0:
             suit_name=" of Hearts"
         elif suit==1:
@@ -201,11 +201,14 @@ Type "quit" to quit
                     sleep(2)
                     print(f"Dealer's second card was: {dealer_card_2}")
                     print(f"Value: {value_actual()}")
-                    while value_actual()<17:
-                        sleep(1.75)
-                        next_card, dealer_hand, dealer_aces=get_card(dealer_hand, dealer_aces)
-                        print(f"Dealer drew the {next_card}")
-                        print(f"Value: {value_actual()}")
+                    if value_actual()==21:
+                        print("\nDealer got a blackjack")
+                    else:
+                        while value_actual()<17:
+                            sleep(1.75)
+                            next_card, dealer_hand, dealer_aces=get_card(dealer_hand, dealer_aces)
+                            print(f"Dealer drew the {next_card}")
+                            print(f"Value: {value_actual()}")
                     print()
                     if value_actual()>21:
                         print("Dealer busted. You win!")
@@ -250,7 +253,7 @@ At the start of your turn, you can also choose to double down, which doubles you
 
 The dealer follows specific rules regarding when he must hit or stand. If the dealer busts or has a lower hand than you, you win
 
-Payout for a win is 1 to 1. If you start the game with a blackjack (a face card and an ace), there is a 3 to 2 payout instead
+Payout for a win is 1 to 1. If you start the game with a blackjack (a ten or face card and an ace), there is a 3 to 2 payout instead
 ---""")
             case "delete save" | "delete data":
                 if file_perm:

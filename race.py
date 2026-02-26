@@ -134,7 +134,14 @@ Type "quit" to quit
                         case _:
                             print("Invalid input, please only type a number 1-8")
                 load(3)
-                scores=[["Racer 1", randrange(300)],["Racer 2", randrange(180)],["Racer 3", randrange(180)],["Racer 4", randrange(180)],["Racer 5", randrange(150)],["Racer 6", randrange(150)],["Racer 7", randrange(90)],["Racer 8", randrange(10)]]
+                scores=[["Racer 1", randrange(300)],
+                        ["Racer 2", randrange(180)],
+                        ["Racer 3", randrange(180)],
+                        ["Racer 4", randrange(180)],
+                        ["Racer 5", randrange(150)],
+                        ["Racer 6", randrange(150)],
+                        ["Racer 7", randrange(90)],
+                        ["Racer 8", randrange(10)]]
                 #for i in range(8):
                     #scores[i][1]=int(input()) Debugging
                 if support_level!=0:
@@ -187,14 +194,14 @@ Type "quit" to quit
                 elif r6:
                     win_loss_message("Racer 6", bet,3)
                 elif r7:
-                    win_loss_message("Racer 7", bet,6)
+                    win_loss_message("Racer 7", bet,7)
                 elif r8:
                     win_loss_message("Racer 8", bet,201)
                 if file_perm:
                     with open("balance.txt", "w") as save:
                         save.write(str(balance))
                 if support_level!=0:
-                    print(f"Your support was appreciated from {support_text}\n")
+                    print(f"Your support was appreciated from {support_text[:-10]}\n")
                     support=0
                     support_text=None
                     support_level=0
@@ -275,7 +282,7 @@ Type "quit" to quit
 Racer 1, Daiwa Scarlet, is energetic and young. Very high odds to win, 1 to 1 payout
 Racers 2, 3, and 4, Gold Ship, Slow Dancer, and Silver Bullet, are experienced racers. Decently high odds to win, 3 to 2 payout
 Racers 5 and 6, Special Week and Vodka, are a bit inexperienced. Still good odds of winning, 2 to 1 payout
-Racer 7, Agnes Tachyon, is clumsy. Worse odds of winning than the other racers, 5 to 1 payout
+Racer 7, Agnes Tachyon, is clumsy. Worse odds of winning than the other racers, 6 to 1 payout
 Racer 8, Haru Urara, is very slow. Extremely bad odds to win, due to very low odds of winning there is a 200 to 1 payout
 
 Full payouts are awarded if your racer finishes in 1st or 2nd

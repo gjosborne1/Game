@@ -188,7 +188,7 @@ Type "quit" to quit
                                 inp="s"
                             case _:
                                 print("Invalid input, please type \"h\" or \"s\" or \"d\"")
-                    while value_actual("p")<22 and inp!="s":
+                    while value_actual("p")<21 and inp!="s":
                         inp=None
                         while inp!="h" and inp!="s":
                             inp = input("Type \"h\" to hit or \"s\" to stand\n").lower()

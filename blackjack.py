@@ -49,13 +49,21 @@ def start_b():
                 new_value+=11
         return total_ace_value
     
-    def value_actual(p_d="d"):
+    def value_actual(p_d="d", disp=False):
         nonlocal player_hand, player_aces
         nonlocal dealer_hand, dealer_aces
         if p_d=="p":
-            return player_hand+ace_value(player_hand, player_aces)
+            value_num=player_hand+ace_value(player_hand, player_aces)
+            if disp and ace_value(player_hand, player_aces)>=11 and not value_num==21:
+                return str(value_num)+" / "+str(value_num-10)
+            else:
+                return value_num
         else:
-            return dealer_hand+ace_value(dealer_hand, dealer_aces)
+            value_num=dealer_hand+ace_value(dealer_hand, dealer_aces)
+            if disp and ace_value(dealer_hand, dealer_aces)>=11 and not value_num==21:
+                return str(value_num)+" / "+str(value_num-10)
+            else:
+                return value_num
     
     def delete(message, file_overwrite):
         nonlocal inp
@@ -151,9 +159,10 @@ Type "quit" to quit
                 print("Dealer stands on 17\n---")
                 print(f"Dealer's hand: {dealer_card_1}\n")
                 print(f"Your hand: {player_card_1}, {player_card_2}")
-                print(f"Value: {value_actual("p")}")
+                print(f"Value: {value_actual("p", True)}")
                 print()
                 _21=False
+                d21=False
                 next_card=None
                 if value_actual("p")==21:
                     _21=True
@@ -168,14 +177,14 @@ Type "quit" to quit
                             case "h":
                                 next_card, player_hand, player_aces=get_card(player_hand, player_aces)
                                 print(f"You drew the {next_card}")
-                                print(f"Value: {value_actual("p")}")
+                                print(f"Value: {value_actual("p", True)}")
                             case "d":
                                 next_card, player_hand, player_aces=get_card(player_hand, player_aces)
                                 balance-=bet
                                 bet*=2
                                 print(f"Doubling down. New bet: ${bet:.2f}")
                                 print(f"You drew the {next_card}")
-                                print(f"Value: {value_actual("p")}")
+                                print(f"Value: {value_actual("p", True)}")
                                 inp="s"
                             case _:
                                 print("Invalid input, please type \"h\" or \"s\" or \"d\"")
@@ -189,45 +198,42 @@ Type "quit" to quit
                                 case "h":
                                     next_card, player_hand, player_aces=get_card(player_hand, player_aces)
                                     print(f"You drew the {next_card}")
-                                    print(f"Value: {value_actual("p")}")
+                                    print(f"Value: {value_actual("p", True)}")
                                 case _:
                                     print("Invalid input, please type \"h\" or \"s\"")
                 print()
                 if value_actual("p")>21:
                     print("You busted\n")
                     print(f"Dealer's second card was: {dealer_card_2}")
-                    print(f"Value: {value_actual()}")
+                    print(f"Value: {value_actual(disp=True)}")
                 else:
                     sleep(2)
                     print(f"Dealer's second card was: {dealer_card_2}")
-                    print(f"Value: {value_actual()}")
+                    print(f"Value: {value_actual(disp=True)}")
                     if value_actual()==21:
+                        d21=True
                         print("\nDealer got a blackjack")
                     else:
-                        while value_actual()<17:
+                        while value_actual()<17 and not _21:
                             sleep(1.75)
                             next_card, dealer_hand, dealer_aces=get_card(dealer_hand, dealer_aces)
                             print(f"Dealer drew the {next_card}")
-                            print(f"Value: {value_actual()}")
+                            print(f"Value: {value_actual(disp=True)}")
                     print()
                     if value_actual()>21:
                         print("Dealer busted. You win!")
-                        if _21:
-                            print(f"+${bet*1.5:.2f}")
-                            balance+=bet*2.5
-                        else:
-                            print(f"+${bet:.2f}")
-                            balance+=bet*2
-                    elif value_actual()>value_actual("p"):
+                        print(f"+${bet:.2f}")
+                        balance+=bet*2
+                    elif value_actual()>value_actual("p") or (d21 and not _21):
                         print("You lost")
+                    elif _21 and not d21:
+                        print("You won!")
+                        print(f"+${bet*1.5:.2f}")
+                        balance+=bet*2.5
                     elif value_actual()<value_actual("p"):
                         print("You won!")
-                        if _21:
-                            print(f"+${bet*1.5:.2f}")
-                            balance+=bet*2.5
-                        else:
-                            print(f"+${bet:.2f}")
-                            balance+=bet*2
+                        print(f"+${bet:.2f}")
+                        balance+=bet*2
                     else:
                         print("Tie")
                         balance+=bet
@@ -254,6 +260,8 @@ At the start of your turn, you can also choose to double down, which doubles you
 The dealer follows specific rules regarding when he must hit or stand. If the dealer busts or has a lower hand than you, you win
 
 Payout for a win is 1 to 1. If you start the game with a blackjack (a ten or face card and an ace), there is a 3 to 2 payout instead
+
+A blackjack is the strongest hand in the game, and beats any hand with 3+ cards (even if the other hand is also equal to 21)
 ---""")
             case "delete save" | "delete data":
                 if file_perm:

@@ -24,6 +24,10 @@ def start_rb():
             inp = input(f"{message}?\nType \"y\" for yes or \"n\" for no\n").lower()
             match inp:
                 case "y":
+                    nonlocal support, support_text, support_level
+                    support=0
+                    support_text=None
+                    support_level=0
                     nonlocal balance; balance=100.0
                     if file_overwrite:
                         with open("balance.txt", "w") as save_del:
